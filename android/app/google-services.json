@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "794568903689",
+    "project_id": "binoy-dummy-project",
+    "storage_bucket": "binoy-dummy-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794568903689:android:7d58ee78c5ee0964e63cd8",
+        "android_client_info": {
+          "package_name": "com.binoydipu.dummy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCApq07pNLeOg4aYSkRZ1YOqb2zHR7wD3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
