@@ -5,6 +5,8 @@ import 'package:dummy/views/verify_email_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'dart:developer' as devtools show log;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,18 +40,95 @@ class HomePage extends StatelessWidget {
             final user = FirebaseAuth.instance.currentUser;
             if (user != null) {
               if (user.emailVerified) {
-                print('Email is verified');
+                return const DummyView();
               } else {
                 return const VerifyEmailView();
               }
             } else {
               return const LoginView();
             }
-            return const Text('Done');
           default:
             return const CircularProgressIndicator();
         }
       },
     );
   }
+}
+
+enum MenuAction { logout }
+
+class DummyView extends StatefulWidget {
+  const DummyView({super.key});
+
+  @override
+  State<DummyView> createState() => _DummyViewState();
+}
+
+class _DummyViewState extends State<DummyView> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Main UI'),
+        actions: [
+          PopupMenuButton(
+            onSelected: (value) async {
+              switch (value) {
+                case MenuAction.logout:
+                  final shouldLogout = await showLogOutDialog(context);
+                  devtools.log(shouldLogout.toString());
+                  if (shouldLogout) {
+                    await FirebaseAuth.instance.signOut();
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/login/',
+                      (_) => false,
+                    );
+                  }
+              }
+            },
+            itemBuilder: (context) {
+              return const [
+                PopupMenuItem<MenuAction>(
+                  value: MenuAction.logout,
+                  child: Text('Log out'),
+                ),
+              ];
+            },
+          )
+        ],
+        backgroundColor: const Color.fromARGB(255, 27, 106, 170),
+        foregroundColor: Colors.white,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarIconBrightness: Brightness.light,
+            statusBarColor: Color.fromARGB(255, 10, 52, 124)),
+      ),
+      body: const Text('Hello World'),
+    );
+  }
+}
+
+Future<bool> showLogOutDialog(BuildContext context) {
+  return showDialog<bool>(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Log Out'),
+        content: const Text('Are you sure you want to log out'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text('Cancle'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
+            child: const Text('Log out'),
+          ),
+        ],
+      );
+    },
+  ).then((value) => value ?? false);
 }
