@@ -1,7 +1,6 @@
 import 'package:dummy/constants/routes.dart';
 import 'package:dummy/utilities/show_error_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:developer' as devtools show log;
 import 'package:flutter/material.dart';
 
 class LoginView extends StatefulWidget {
@@ -71,7 +70,6 @@ class _LoginViewState extends State<LoginView> {
                   );
                 }
               } on FirebaseAuthException catch (e) {
-                devtools.log(e.code);
                 if (e.code == 'user-not-found') {
                   if (context.mounted) {
                     await showErrorDialog(
