@@ -1,11 +1,15 @@
 import 'package:dummy/services/auth/auth_provider.dart';
 import 'package:dummy/services/auth/auth_user.dart';
+import 'package:dummy/services/auth/firebase_auth_provider.dart';
 
-// to expose the given AuthProvider to the UI and can hold additional logic
+// To expose the given AuthProvider (ex. Firebase, Google, Facebook) to the UI and can hold additional logic;
+// Usually AuthService takes values from multiple AuthProvider and combine its logic;
 class AuthService implements AuthProvider {
   final AuthProvider provider;
 
   const AuthService(this.provider);
+
+  factory AuthService.firebase() => AuthService(FirebaseAuthProvider());
 
   @override
   Future<AuthUser> createUser({
@@ -35,4 +39,7 @@ class AuthService implements AuthProvider {
 
   @override
   Future<void> sendEmailVerification() => provider.sendEmailVerification();
+
+  @override
+  Future<void> initialize() => provider.initialize();
 }
