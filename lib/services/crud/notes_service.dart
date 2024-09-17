@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:dummy/services/crud/crud_exceptions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
