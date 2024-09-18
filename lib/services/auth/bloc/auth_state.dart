@@ -1,5 +1,6 @@
 import 'package:dummy/services/auth/auth_user.dart';
 import 'package:flutter/foundation.dart' show immutable;
+import 'package:equatable/equatable.dart';
 
 /// Every state that comes out of AuthBloc, is this Generic AuthState type
 /// Immutable means every states of this class and it's sub-class is going to be final
@@ -8,9 +9,14 @@ abstract class AuthState {
   const AuthState();
 }
 
-/// In loading state, [Ex. While app is initializing or communicating with firebase]
-class AuthStateLoading extends AuthState {
-  const AuthStateLoading();
+class AuthStateUninitialized extends AuthState {
+  const AuthStateUninitialized();
+}
+
+/// User is registering right now, but could have an exception
+class AuthStateRegistering extends AuthState {
+  final Exception? exception;
+  const AuthStateRegistering(this.exception);
 }
 
 /// In user logged in state, contains AuthUser
@@ -19,24 +25,20 @@ class AuthStateLoggedIn extends AuthState {
   const AuthStateLoggedIn(this.user);
 }
 
-/// In login Error state, [Ex: Exception occured while loggin in], contains Exception
-class AuthStateLoginFailure extends AuthState {
-  final Exception exception;
-  const AuthStateLoginFailure(this.exception);
-}
-
 /// User currently logged in, but didn't verify his email
 class AuthStateNeedsVerification extends AuthState {
   const AuthStateNeedsVerification();
 }
 
-/// Logged out state
-class AuthStateLoggedOut extends AuthState {
-  const AuthStateLoggedOut();
-}
+/// Logged out state, contains exception and isLoading flag to convey the right message for conbination of these
+class AuthStateLoggedOut extends AuthState with EquatableMixin {
+  final Exception? exception;
+  final bool isLoading;
+  const AuthStateLoggedOut({
+    required this.exception,
+    required this.isLoading,
+  });
 
-/// In logout error state, [Ex. Firebase API call error], contains Exception
-class AuthStateLogoutFailure extends AuthState {
-  final Exception exception;
-  const AuthStateLogoutFailure(this.exception);
+  @override
+  List<Object?> get props => [exception, isLoading];
 }
