@@ -1,3 +1,3 @@
 # QuickNotes
 
-A Flutter Application for creating ans sharing notes
+A Flutter Application for creating and sharing notes.
