@@ -8,7 +8,6 @@ import 'package:dummy/services/cloud/firebase_cloud_storage.dart';
 import 'package:dummy/utilities/dialogs/logout_dialog.dart';
 import 'package:dummy/views/notes/notes_list_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NotesView extends StatefulWidget {
@@ -65,11 +64,6 @@ class _NotesViewState extends State<NotesView> {
             },
           )
         ],
-        backgroundColor: const Color.fromARGB(255, 27, 106, 170),
-        foregroundColor: Colors.white,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarIconBrightness: Brightness.light,
-            statusBarColor: Color.fromARGB(255, 10, 52, 124)),
       ),
       body: StreamBuilder(
         stream: _notesService.allNotes(ownerUserId: userId),

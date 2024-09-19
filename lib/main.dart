@@ -17,9 +17,12 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MaterialApp(
-      title: 'Flutter Demo',
+      title: 'QuickNotes',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color.fromARGB(255, 255, 204, 0),
+          foregroundColor: Colors.black,
+        ),
       ),
       home: BlocProvider<AuthBloc>(
         create: (context) => AuthBloc(FirebaseAuthProvider()),

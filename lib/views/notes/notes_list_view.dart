@@ -41,7 +41,7 @@ class NotesListView extends StatelessWidget {
             },
             icon: const Icon(
               Icons.delete,
-              color: Colors.blueAccent,
+              color: Color.fromARGB(255, 255, 140, 0),
             ),
           ),
         );
